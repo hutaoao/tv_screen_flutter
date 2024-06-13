@@ -31,7 +31,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initVideo(String url) {
-    _controller = VideoPlayerController.asset(url)
+    _controller = VideoPlayerController.networkUrl(Uri.parse(
+        'http://192.168.13.101:81/video1.mp4'))
       ..play()
       ..setLooping(true);
     _initializeVideoPlayerFuture = _controller.initialize();
