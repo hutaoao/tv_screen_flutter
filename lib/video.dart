@@ -31,8 +31,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initVideo(String url) {
-    _controller = VideoPlayerController.networkUrl(Uri.parse(
-        'http://192.168.13.101:81/video1.mp4'))
+    _controller = VideoPlayerController.networkUrl(Uri.parse(url))
       ..play()
       ..setLooping(true);
     _initializeVideoPlayerFuture = _controller.initialize();
@@ -66,20 +65,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               }
             }),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     setState(() {
-      //       if (_controller.value.isPlaying) {
-      //         _controller.pause();
-      //       } else {
-      //         _controller.play();
-      //       }
-      //     });
-      //   },
-      //   child: Icon(
-      //     _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-      //   ),
-      // ),
     );
   }
 }

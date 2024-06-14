@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import './video.dart';
 
@@ -30,9 +31,12 @@ class _MyHomePageState extends State<MyHomePage> {
   bool completed = false;
   int videoIndex = 0;
 
+  /// 视频集合
   List videoList = [
-    'assets/video1.mp4',
-    'assets/video2.mp4',
+    'http://192.168.13.101:81/video1.mp4',
+    'http://192.168.13.101:81/video4.mp4',
+    'http://192.168.13.101:81/video1.mp4',
+    'http://192.168.13.101:81/video4.mp4',
   ];
 
   final PageController _pageController = PageController();
@@ -65,13 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
       completed = false;
     });
     switch (position) {
-      case 2:
+      case 5:
         initWebView(controller1, 'https://monitor-new.grey-ants.com/base/#/authScreen');
         break;
-      case 3:
+      case 6:
         initWebView(controller2, 'http://192.168.13.101');
         break;
-      case 4:
+      case 7:
         initWebView(controller3, 'http://192.168.14.102/link/gFuQ0s09');
         break;
       default:
@@ -85,43 +89,31 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   _handleKey(RawKeyEvent event) {
-    switch (event.logicalKey.keyLabel) {
-      case 'Arrow Down':
-        _pageController.nextPage(
-          duration: const Duration(microseconds: 100),
-          curve: Curves.easeIn,
-        );
-        break;
-      case 'Arrow Up':
-        _pageController.previousPage(
-          duration: const Duration(microseconds: 100),
-          curve: Curves.easeIn,
-        );
-        break;
-      case 'Arrow Left':
-        int index = videoIndex;
-        if (videoIndex == 0) {
-          index = 3;
-        } else {
-          index--;
-        }
-        setState(() {
-          videoIndex = index;
-        });
-        break;
-      case 'Arrow Right':
-        int index = videoIndex;
-        if (videoIndex == 3) {
-          index = 0;
-        } else {
-          index++;
-        }
-        setState(() {
-          videoIndex = index;
-        });
-        break;
-      default:
+    if (event is RawKeyUpEvent) {
+      switch (event.logicalKey.keyLabel) {
+        case 'Arrow Down':
+          _pageController.nextPage(
+            duration: const Duration(microseconds: 100),
+            curve: Curves.easeIn,
+          );
+          break;
+        case 'Arrow Up':
+          _pageController.previousPage(
+            duration: const Duration(microseconds: 100),
+            curve: Curves.easeIn,
+          );
+          break;
+        default:
+      }
     }
+  }
+
+  // 私有方法
+  List<Widget> _initListData() {
+    var list = videoList.map((e) {
+      return Center(child: VideoPlayerScreen(url: e));
+    });
+    return list.toList();
   }
 
   @override
@@ -134,8 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
           controller: _pageController,
           onPageChanged: _onPageChanged,
           children: [
-            const Center(child: VideoPlayerScreen(url: 'http://192.168.13.101:81/video1.mp4')),
-            Center(child: Image.network('http://192.168.13.101:81/rujia-screen.png', fit: BoxFit.cover)),
+            ..._initListData(),
+            Center(child: Image.network('http://192.168.13.101:81/rujia-screen.png', fit: BoxFit.cover, width: double.infinity)),
             Center(child: _builderWebView(controller1)),
             Center(child: _builderWebView(controller2)),
             Center(child: _builderWebView(controller3)),
