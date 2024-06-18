@@ -11,8 +11,8 @@ class VideoPlayerScreen extends StatefulWidget {
 }
 
 class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  bool completed = false;
   late VideoPlayerController _controller;
-  late Future<void> _initializeVideoPlayerFuture;
 
   @override
   void initState() {
@@ -31,10 +31,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initVideo(String url) {
-    _controller = VideoPlayerController.networkUrl(Uri.parse(url))
-      ..play()
-      ..setLooping(true);
-    _initializeVideoPlayerFuture = _controller.initialize();
+    _controller = VideoPlayerController.networkUrl(Uri.parse(url));
+    _controller.initialize().then((value) {
+      setState(() {
+        completed = true;
+      });
+      _controller.play();
+      _controller.setLooping(true);
+    });
   }
 
   @override
@@ -45,25 +49,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     super.dispose();
   }
 
+  Widget _builderVideoPlayer() {
+    return completed
+        ? VideoPlayer(_controller)
+        : const CircularProgressIndicator();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: FutureBuilder(
-            future: _initializeVideoPlayerFuture,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                return AspectRatio(
-                  aspectRatio: _controller.value.aspectRatio,
-                  // Use the VideoPlayer widget to display the video.
-                  child: VideoPlayer(_controller),
-                );
-              } else {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            }),
+        child: _builderVideoPlayer(),
       ),
     );
   }

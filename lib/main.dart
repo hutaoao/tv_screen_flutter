@@ -69,13 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
       completed = false;
     });
     switch (position) {
-      case 5:
+      case 10:
         initWebView(controller1, 'https://monitor-new.grey-ants.com/base/#/authScreen');
         break;
-      case 6:
+      case 11:
         initWebView(controller2, 'http://192.168.13.101');
         break;
-      case 7:
+      case 12:
         initWebView(controller3, 'http://192.168.14.102/link/gFuQ0s09');
         break;
       default:
