@@ -34,8 +34,8 @@ class _MyHomePageState extends State<MyHomePage> {
   /// 视频集合
   List videoList = [
     'http://192.168.13.101:81/video1.mp4',
-    'http://192.168.13.101:81/video4.mp4',
-    'http://192.168.13.101:81/video1.mp4',
+    'http://192.168.13.101:81/video2.m4v',
+    'http://192.168.13.101:81/video3.m4v',
     'http://192.168.13.101:81/video4.mp4',
   ];
 
@@ -127,6 +127,11 @@ class _MyHomePageState extends State<MyHomePage> {
           onPageChanged: _onPageChanged,
           children: [
             ..._initListData(),
+            Center(child: Image.network('http://192.168.13.101:81/pk-202406.jpg', fit: BoxFit.cover, width: double.infinity)),
+            Center(child: Image.network('http://192.168.13.101:81/pk02.png', fit: BoxFit.cover, width: double.infinity)),
+            Center(child: Image.network('http://192.168.13.101:81/pk03.jpg', fit: BoxFit.cover, width: double.infinity)),
+            Center(child: Image.network('http://192.168.13.101:81/pk04.png', fit: BoxFit.cover, width: double.infinity)),
+            Center(child: Image.network('http://192.168.13.101:81/pk05.jpg', fit: BoxFit.cover, width: double.infinity)),
             Center(child: Image.network('http://192.168.13.101:81/rujia-screen.png', fit: BoxFit.cover, width: double.infinity)),
             Center(child: _builderWebView(controller1)),
             Center(child: _builderWebView(controller2)),
