@@ -31,6 +31,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   void _initVideo(String url) {
+    setState(() {
+      completed = false;
+    });
     _controller = VideoPlayerController.networkUrl(Uri.parse(url));
     _controller.initialize().then((value) {
       setState(() {
